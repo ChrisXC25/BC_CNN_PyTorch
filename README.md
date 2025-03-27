@@ -1,7 +1,7 @@
 # BC_CNN_PyTorch
 Create a CNN model for breast cancer image classification
 
-Here, we will use the kaggle breast histopathological images (Invasive Ductal Carcinoma) as inputs to train a simple CNN model for binary classification task (IDC_positive vs IDC_negative)
+Here, we will use the kaggle breast histopathological images (Invasive Ductal Carcinoma) as inputs to train a simple CNN model for a binary classification task (IDC_positive vs IDC_negative)
 
 ## Create a simple Convolutional Neural Networks to classify breast cancer status (IDC)
 
