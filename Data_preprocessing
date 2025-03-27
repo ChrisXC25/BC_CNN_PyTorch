@@ -1,0 +1,61 @@
+# install kaggle and download breast histopathology images
+
+!pip install kaggle 
+
+from google.colab import files
+files.upload()
+
+!mkdir -p ~/.kaggle
+!cp kaggle.json ~/.kaggle/
+!chmod 600 ~/.kaggle/kaggle.json
+
+
+!kaggle datasets download -d paultimothymooney/breast-histopathology-images
+!unzip breast-histopathology-images.zip -d breast_cancer_data
+
+# create two folders for 0:IDC_negative and 1:IDC_positive
+
+import os 
+import shutil 
+from glob import glob
+
+# current directory 
+current_dir = '/content/breast_cancer_data'
+
+os.makedirs('/content/breast_cancer_data_sorted/IDC_negative', exist_ok=True)
+os.makedirs('/content/breast_cancer_data_sorted/IDC_positive', exist_ok=True)
+
+# relocate labeled images to these two directories 
+for filepath in glob(current_dir + '/**/*.png', recursive=True):
+  filename = os.path.basename(filepath)
+  if filename.endswith('class0.png'):
+    shutil.copy(filepath, '/content/breast_cancer_data_sorted/IDC_negative')
+  elif filename.endswith('class1.png'):
+    shutil.copy(filepath, '/content/breast_cancer_data_sorted/IDC_positive')
+
+# inspect the total number of files 
+
+print('Total number of IDC_negative images: ', len(os.listdir('/content/breast_cancer_data_sorted/IDC_negative')))
+print('Total number of IDC_positive images: ', len(os.listdir('/content/breast_cancer_data_sorted/IDC_positive')))
+
+from IPython.display import Image, display
+import glob
+
+# Paths to directories
+positive_dir = '/content/breast_cancer_data_sorted/IDC_positive'
+negative_dir = '/content/breast_cancer_data_sorted/IDC_negative'
+
+#  IDC_positive
+positive_images = glob.glob(f"{positive_dir}/*.png")
+print("IDC Positive Example:")
+display(Image(filename=positive_images[2]))
+
+
+# IDC_negative
+negative_images = glob.glob(f"{negative_dir}/*.png")
+print("IDC Negative Example:")
+display(Image(filename=negative_images[2]))
+
+# IDC_negative:198738
+# IDC_positive: 78786
+
